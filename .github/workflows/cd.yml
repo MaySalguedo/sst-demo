@@ -28,18 +28,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Materialize clasp credentials
-        env:
-          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
-          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
-          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
-        run: node scripts/materialize-clasp-auth.mjs
-
       - name: Build and deploy
         env:
           PNPM_VERSION: ${{ env.PNPM_VERSION }}
           BUILD_PROFILE: production
-          CLASP_CONFIG_AUTH: .config/clasp/.clasprc.json
+          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
+          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
+          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
         run: bash .github/docker/run.sh pnpm run deploy
 
   sync-properties:
@@ -55,17 +50,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Materialize clasp credentials
-        env:
-          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
-          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
-          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
-        run: node scripts/materialize-clasp-auth.mjs
-
       - name: Sync Script Properties
         env:
           PNPM_VERSION: ${{ env.PNPM_VERSION }}
-          CLASP_CONFIG_AUTH: .config/clasp/.clasprc.json
+          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
+          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
+          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
           CD_SYNC_TOKEN: ${{ secrets.CD_SYNC_TOKEN }}
           APPSHEET_APP_ID: ${{ secrets.APPSHEET_APP_ID }}
           APPSHEET_ACCESS_KEY: ${{ secrets.APPSHEET_ACCESS_KEY }}

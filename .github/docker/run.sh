@@ -16,6 +16,19 @@ docker run --rm \
   -e HOME=/app \
   -e XDG_CACHE_HOME=/app/.cache \
   -e PNPM_VERSION="${PNPM_VERSION}" \
+  -e BUILD_PROFILE="${BUILD_PROFILE:-}" \
+  -e CLASP_CLIENT_ID="${CLASP_CLIENT_ID:-}" \
+  -e CLASP_CLIENT_SECRET="${CLASP_CLIENT_SECRET:-}" \
+  -e CLASP_REFRESH_TOKEN="${CLASP_REFRESH_TOKEN:-}" \
+  -e CD_SYNC_TOKEN="${CD_SYNC_TOKEN:-}" \
+  -e APPSHEET_APP_ID="${APPSHEET_APP_ID:-}" \
+  -e APPSHEET_ACCESS_KEY="${APPSHEET_ACCESS_KEY:-}" \
+  -e APPSHEET_REGION="${APPSHEET_REGION:-}" \
+  -e APPSHEET_DB_URL="${APPSHEET_DB_URL:-}" \
+  -e LOOKER_REPORT_URL="${LOOKER_REPORT_URL:-}" \
+  -e LOOKER_EMBED_URL="${LOOKER_EMBED_URL:-}" \
+  -e ALERT_DAYS_BEFORE="${ALERT_DAYS_BEFORE:-}" \
+  -e EMAIL_SST="${EMAIL_SST:-}" \
   -u "$(id -u):$(id -g)" \
   -v "${ROOT_DIR}:/app" \
   -w /app \
@@ -28,10 +41,16 @@ docker run --rm \
     if [ ! -f .npmrc ] || [ -w .npmrc ]; then
       cp .github/docker/.npmrc.ci .npmrc
     fi
-    CLASP_AUTH_FILE="/app/.config/clasp/.clasprc.json"
-    if [ -f "$CLASP_AUTH_FILE" ]; then
-      export CLASP_CONFIG_AUTH="$CLASP_AUTH_FILE"
+
+    CLASP_AUTH_DIR="/app/.config/clasp"
+    CLASP_AUTH_FILE="${CLASP_AUTH_DIR}/.clasprc.json"
+    if [ ! -f "$CLASP_AUTH_FILE" ] && [ -n "${CLASP_CLIENT_ID:-}" ]; then
+      node scripts/materialize-clasp-auth.mjs
     fi
+    if [ -f "$CLASP_AUTH_FILE" ]; then
+      export clasp_config_auth="$CLASP_AUTH_FILE"
+    fi
+
     pnpm install --frozen-lockfile
     exec "$@"
   ' _ "$@"
