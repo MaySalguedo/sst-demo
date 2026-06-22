@@ -1,0 +1,78 @@
+name: CD
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: cd-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PNPM_VERSION: ${{ vars.PNPM_VERSION || '11.8.0' }}
+  SST_DEMO_CI_IMAGE: sst-demo-ci
+
+jobs:
+  deploy:
+    name: Build and deploy to Apps Script
+    if: >
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Materialize clasp credentials
+        env:
+          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
+          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
+          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
+        run: node scripts/materialize-clasp-auth.mjs
+
+      - name: Build and deploy
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+          BUILD_PROFILE: production
+          CLASP_CONFIG_AUTH: .config/clasp/.clasprc.json
+        run: bash .github/docker/run.sh pnpm run deploy
+
+  sync-properties:
+    name: Sync Script Properties
+    needs: deploy
+    if: >
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Materialize clasp credentials
+        env:
+          CLASP_CLIENT_ID: ${{ secrets.CLASP_CLIENT_ID }}
+          CLASP_CLIENT_SECRET: ${{ secrets.CLASP_CLIENT_SECRET }}
+          CLASP_REFRESH_TOKEN: ${{ secrets.CLASP_REFRESH_TOKEN }}
+        run: node scripts/materialize-clasp-auth.mjs
+
+      - name: Sync Script Properties
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+          CLASP_CONFIG_AUTH: .config/clasp/.clasprc.json
+          CD_SYNC_TOKEN: ${{ secrets.CD_SYNC_TOKEN }}
+          APPSHEET_APP_ID: ${{ secrets.APPSHEET_APP_ID }}
+          APPSHEET_ACCESS_KEY: ${{ secrets.APPSHEET_ACCESS_KEY }}
+          APPSHEET_REGION: ${{ vars.APPSHEET_REGION }}
+          APPSHEET_DB_URL: ${{ vars.APPSHEET_DB_URL }}
+          LOOKER_REPORT_URL: ${{ vars.LOOKER_REPORT_URL }}
+          LOOKER_EMBED_URL: ${{ vars.LOOKER_EMBED_URL }}
+          ALERT_DAYS_BEFORE: ${{ vars.ALERT_DAYS_BEFORE }}
+          EMAIL_SST: ${{ vars.EMAIL_SST }}
+        run: bash .github/docker/run.sh pnpm run sync:properties

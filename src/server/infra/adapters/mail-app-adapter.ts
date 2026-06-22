@@ -1,4 +1,4 @@
-import type { AlertItem } from "@domain/entities";
+import type { AlertItem } from "@domain/models/alert-item";
 
 export class MailAppAdapter {
   sendAlertEmail(params: {

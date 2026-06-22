@@ -1,5 +1,5 @@
-import { PROPERTIES } from "@domain/entities";
-import type { AlertRunResult } from "@domain/entities";
+import { PROPERTIES } from "@domain/constants/properties";
+import type { AlertRunResult } from "@domain/models/alert-run-result";
 import type { MailAppAdapter } from "@infra/adapters/mail-app-adapter";
 import type { PropertiesStoreAdapter } from "@infra/adapters/properties-store-adapter";
 import type { PropertiesConfigRepository } from "@infra/adapters/properties-config-repository";

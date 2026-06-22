@@ -1,4 +1,4 @@
-import type { ExpirationStatus } from "@domain/types";
+import type { ExpirationStatus } from "@domain/models/expiration-status";
 
 export function normalizeDate(value: string): string {
   const raw = String(value ?? "").trim();

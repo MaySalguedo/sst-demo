@@ -4,7 +4,7 @@ import type {
   AppConfigInput,
   ConnectionTestResult,
 } from "@domain/types";
-import { useGateway } from "@app/providers/gateway-provider";
+import { useGateway } from "@app/hooks/use-gateway";
 
 export function useConfig() {
   const gateway = useGateway();

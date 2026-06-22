@@ -16,10 +16,16 @@ declare global {
       script: {
         run: {
           withSuccessHandler<T>(handler: (result: T) => void): {
-            withFailureHandler(handler: (error: Error) => void): Record<
-              string,
-              (...args: unknown[]) => void
-            >;
+            withFailureHandler(handler: (error: Error) => void): {
+              getDashboardSummary(): void;
+              getAlertas(): void;
+              getTendencias(): void;
+              getExtintores(): void;
+              getConfig(): void;
+              saveConfig(partial: AppConfigInput): void;
+              runAlertsNow(): void;
+              testConnection(table?: string): void;
+            };
           };
         };
       };
@@ -29,7 +35,16 @@ declare global {
 
 export {};
 
-function callGas<T>(functionName: string, ...args: unknown[]): Promise<T> {
+function callGas<TResult>(
+  invoke: (
+    run: ReturnType<
+      ReturnType<
+        NonNullable<Window["google"]>["script"]["run"]["withSuccessHandler"]
+      >["withFailureHandler"]
+    >,
+  ) => void,
+  context: string,
+): Promise<TResult> {
   return new Promise((resolve, reject) => {
     const runner = window.google?.script?.run;
     if (!runner) {
@@ -37,30 +52,40 @@ function callGas<T>(functionName: string, ...args: unknown[]): Promise<T> {
       return;
     }
 
-    const api = runner
-      .withSuccessHandler<T>(resolve)
-      .withFailureHandler((error: Error) =>
-        reject(error ?? new Error(`Error en ${functionName}`)),
+    try {
+      invoke(
+        runner
+          .withSuccessHandler<TResult>(resolve)
+          .withFailureHandler((error: Error) =>
+            reject(error ?? new Error(`Error en ${context}`)),
+          ),
       );
-
-    const fn = api[functionName];
-    if (!fn) {
-      reject(new Error(`Función ${functionName} no existe en el servidor.`));
-      return;
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error(String(error)));
     }
-    fn(...args);
   });
 }
 
 export const gasSstGateway: SstGateway = {
-  getDashboardSummary: () => callGas<DashboardSummary>("getDashboardSummary"),
-  getAlertas: () => callGas<AlertItem[]>("getAlertas"),
-  getTendencias: () => callGas<TrendPoint[]>("getTendencias"),
-  getExtintores: () => callGas<Extinguisher[]>("getExtintores"),
-  getConfig: () => callGas<AppConfig>("getConfig"),
+  getDashboardSummary: () =>
+    callGas<DashboardSummary>(
+      (run) => run.getDashboardSummary(),
+      "getDashboardSummary",
+    ),
+  getAlertas: () =>
+    callGas<AlertItem[]>((run) => run.getAlertas(), "getAlertas"),
+  getTendencias: () =>
+    callGas<TrendPoint[]>((run) => run.getTendencias(), "getTendencias"),
+  getExtintores: () =>
+    callGas<Extinguisher[]>((run) => run.getExtintores(), "getExtintores"),
+  getConfig: () => callGas<AppConfig>((run) => run.getConfig(), "getConfig"),
   saveConfig: (partial: AppConfigInput) =>
-    callGas<AppConfig>("saveConfig", partial),
-  runAlertsNow: () => callGas<AlertRunResult>("runAlertsNow"),
+    callGas<AppConfig>((run) => run.saveConfig(partial), "saveConfig"),
+  runAlertsNow: () =>
+    callGas<AlertRunResult>((run) => run.runAlertsNow(), "runAlertsNow"),
   testConnection: (table?: string) =>
-    callGas<ConnectionTestResult>("testConnection", table),
+    callGas<ConnectionTestResult>(
+      (run) => run.testConnection(table),
+      "testConnection",
+    ),
 };

@@ -1,0 +1,10 @@
+{
+  "ref": "refs/heads/develop",
+  "repository": {
+    "name": "sst-demo",
+    "full_name": "owner/sst-demo"
+  },
+  "pusher": {
+    "name": "act-user"
+  }
+}

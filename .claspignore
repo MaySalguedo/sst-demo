@@ -1,3 +1,2 @@
-**/**
-!dist/**
-!dist/**/*
+# rootDir is dist/ — ignore build artifacts not needed in Apps Script
+client/**

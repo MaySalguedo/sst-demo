@@ -1,11 +1,18 @@
 node_modules/
 dist/
+.cache/
+.corepack/
+.pnpm-store/
 
 .env
 .env.local
 .env.*.local
+.secrets
+.vars
+.config/clasp/.clasprc.json
 
 sst-demo-template.xlsx
+coverage/
 
 *.log
 npm-debug.log*

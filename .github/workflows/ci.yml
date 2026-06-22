@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: ${{ vars.PNPM_VERSION || '11.8.0' }}
+  SST_DEMO_CI_IMAGE: sst-demo-ci
+
+jobs:
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run dependency audit
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+        run: bash .github/docker/run.sh pnpm run audit
+
+  lint:
+    name: Lint
+    needs: audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ESLint
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+        run: bash .github/docker/run.sh pnpm run lint
+
+  check:
+    name: TypeScript check
+    needs: lint
+    if: >
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/develop' ||
+      github.base_ref == 'main' ||
+      github.base_ref == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run TypeScript check
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+        run: bash .github/docker/run.sh pnpm run check
+
+  coverage:
+    name: Test coverage (90%)
+    needs: check
+    if: github.ref == 'refs/heads/develop' || github.base_ref == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run coverage gate
+        env:
+          PNPM_VERSION: ${{ env.PNPM_VERSION }}
+        run: bash .github/docker/run.sh pnpm run test:cov

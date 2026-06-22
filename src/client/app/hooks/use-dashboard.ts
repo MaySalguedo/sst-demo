@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { DashboardSummary, TrendPoint } from "@domain/types";
-import { useGateway } from "@app/providers/gateway-provider";
+import { useGateway } from "@app/hooks/use-gateway";
 
 interface AsyncState<T> {
   data: T | null;

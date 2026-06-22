@@ -1,5 +1,6 @@
-import { DEFAULT_CONFIG, PROPERTIES } from "@domain/entities";
-import type { AppConfig, AppConfigInput } from "@domain/entities";
+import { DEFAULT_CONFIG } from "@domain/constants/default-config";
+import { PROPERTIES } from "@domain/constants/properties";
+import type { AppConfig, AppConfigInput } from "@domain/models/app-config";
 import type { PropertiesStoreAdapter } from "@infra/adapters/properties-store-adapter";
 
 export class PropertiesConfigRepository {

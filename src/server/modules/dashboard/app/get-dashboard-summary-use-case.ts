@@ -1,12 +1,12 @@
-import type { AlertItem, DashboardSummary, TrendPoint } from "@domain/entities";
-import { daysUntil } from "@domain/date-utils";
+import { buildAlertsFromEntities } from "@domain/alert-builder";
+import type { AlertItem } from "@domain/models/alert-item";
+import type { DashboardSummary } from "@domain/models/dashboard-summary";
+import type { TrendPoint } from "@domain/models/trend-point";
 import type { PropertiesConfigRepository } from "@infra/adapters/properties-config-repository";
-import type {
-  AppSheetEmployeeRepository,
-  AppSheetEppRepository,
-  AppSheetExtinguisherRepository,
-  AppSheetInspectionRepository,
-} from "@infra/adapters/appsheet-repositories";
+import type { AppSheetEmployeeRepository } from "@infra/adapters/appsheet-employee-repository";
+import type { AppSheetEppRepository } from "@infra/adapters/appsheet-epp-repository";
+import type { AppSheetExtinguisherRepository } from "@infra/adapters/appsheet-extinguisher-repository";
+import type { AppSheetInspectionRepository } from "@infra/adapters/appsheet-inspection-repository";
 
 export class GetDashboardSummaryUseCase {
   constructor(
@@ -40,38 +40,10 @@ export class GetDashboardSummaryUseCase {
   }
 
   private buildAlerts(alertDaysBefore: number): AlertItem[] {
-    const alerts: AlertItem[] = [];
-
-    for (const employee of this.employees.getAll()) {
-      const daysRemaining = daysUntil(employee.medicalExamExpires);
-      if (daysRemaining <= alertDaysBefore) {
-        alerts.push({
-          id: employee.id,
-          type: "examen_medico",
-          label: employee.name,
-          detail: employee.area,
-          dueDate: employee.medicalExamExpires,
-          daysRemaining,
-          status: employee.status,
-        });
-      }
-    }
-
-    for (const extinguisher of this.extinguishers.getAll()) {
-      const daysRemaining = daysUntil(extinguisher.nextRecharge);
-      if (daysRemaining <= alertDaysBefore) {
-        alerts.push({
-          id: extinguisher.code,
-          type: "extintor",
-          label: extinguisher.code,
-          detail: extinguisher.location,
-          dueDate: extinguisher.nextRecharge,
-          daysRemaining,
-          status: extinguisher.status,
-        });
-      }
-    }
-
-    return alerts.sort((a, b) => a.daysRemaining - b.daysRemaining);
+    return buildAlertsFromEntities(
+      this.employees.getAll(),
+      this.extinguishers.getAll(),
+      alertDaysBefore,
+    );
   }
 }
