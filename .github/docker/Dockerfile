@@ -3,10 +3,12 @@ FROM node:24-bookworm-slim
 ARG PNPM_VERSION=11.8.0
 
 ENV PNPM_HOME="/pnpm"
-ENV PATH="${PNPM_HOME}:${PATH}"
+ENV PATH="${PNPM_HOME}/bin:${PATH}"
 ENV CI=true
 
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+RUN mkdir -p "${PNPM_HOME}" \
+  && npm install -g "pnpm@${PNPM_VERSION}" --prefix "${PNPM_HOME}" \
+  && chmod -R a+rX "${PNPM_HOME}"
 
 WORKDIR /app
 

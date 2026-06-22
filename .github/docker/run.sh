@@ -13,13 +13,21 @@ docker build \
 
 docker run --rm \
   -e CI=true \
+  -e HOME=/app \
+  -e XDG_CACHE_HOME=/app/.cache \
   -e PNPM_VERSION="${PNPM_VERSION}" \
   -u "$(id -u):$(id -g)" \
   -v "${ROOT_DIR}:/app" \
   -w /app \
   "${IMAGE_NAME}" \
   bash -lc '
-    cp .github/docker/.npmrc.ci .npmrc
+    export PATH="/pnpm/bin:${PATH}"
+    export npm_config_verify_deps_before_run=false
+    export npm_config_store_dir=/app/.pnpm-store
+    mkdir -p "$XDG_CACHE_HOME" "$npm_config_store_dir"
+    if [ ! -f .npmrc ] || [ -w .npmrc ]; then
+      cp .github/docker/.npmrc.ci .npmrc
+    fi
     CLASP_AUTH_FILE="/app/.config/clasp/.clasprc.json"
     if [ -f "$CLASP_AUTH_FILE" ]; then
       export CLASP_CONFIG_AUTH="$CLASP_AUTH_FILE"
