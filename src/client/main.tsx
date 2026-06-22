@@ -1,13 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { GatewayProvider } from "@app/providers/gateway-provider";
-import { App } from "@app/app";
+import { GatewayProviderComponent } from "@app/providers/gateway-provider/gateway-provider.component";
+import { AppComponent } from "@app/app/app.component";
 import "./styles/main.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GatewayProvider>
-      <App />
-    </GatewayProvider>
+    <GatewayProviderComponent>
+      <AppComponent />
+    </GatewayProviderComponent>
   </StrictMode>,
 );

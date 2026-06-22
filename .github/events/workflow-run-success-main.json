@@ -1,0 +1,13 @@
+{
+  "action": "completed",
+  "workflow_run": {
+    "conclusion": "success",
+    "head_branch": "main",
+    "event": "push",
+    "name": "CI"
+  },
+  "repository": {
+    "name": "sst-demo",
+    "full_name": "owner/sst-demo"
+  }
+}

@@ -1,4 +1,5 @@
-import { DEFAULT_CONFIG, PROPERTIES } from "@domain/entities";
+import { DEFAULT_CONFIG } from "@domain/constants/default-config";
+import { PROPERTIES } from "@domain/constants/properties";
 import type { PropertiesStoreAdapter } from "@infra/adapters/properties-store-adapter";
 
 export type AppSheetRow = Record<string, unknown>;
@@ -33,7 +34,7 @@ export class AppSheetApiAdapter {
 
     if (!appId || !accessKey) {
       throw new Error(
-        "Falta configurar APPSHEET_APP_ID o APPSHEET_ACCESS_KEY (Script Properties o .env).",
+        "Faltan APPSHEET_APP_ID o APPSHEET_ACCESS_KEY en Script Properties. Ejecuta pnpm run sync:properties tras el deploy.",
       );
     }
 

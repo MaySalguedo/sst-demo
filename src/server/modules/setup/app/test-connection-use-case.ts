@@ -1,5 +1,5 @@
-import { APPSHEET_TABLES } from "@domain/entities";
-import type { ConnectionTestResult } from "@domain/entities";
+import { APPSHEET_TABLES } from "@domain/constants/appsheet-tables";
+import type { ConnectionTestResult } from "@domain/models/connection-test-result";
 import type { AppSheetApiAdapter } from "@infra/adapters/appsheet-api-adapter";
 
 export class TestConnectionUseCase {

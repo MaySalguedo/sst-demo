@@ -1,4 +1,4 @@
-import type { ExpirationStatus } from "./entities";
+import type { ExpirationStatus } from "@domain/models/expiration-status";
 
 export function daysUntil(dateValue: string | Date, today = new Date()): number {
   const target =
