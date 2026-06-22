@@ -1,0 +1,54 @@
+{
+  "name": "sst-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "vite:build": "vite build",
+    "copy:client": "node scripts/copy-client.mjs",
+    "build:client": "run-s vite:build copy:client",
+    "build:server": "node scripts/build-server.mjs",
+    "build": "run-s build:client build:server",
+    "template": "node scripts/generate-template.mjs",
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "lint": "eslint .",
+    "audit": "pnpm audit --audit-level=low",
+    "deploy": "run-s build push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.1",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/google-apps-script": "^2.0.11",
+    "@types/node": "^26.0.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all2": "^9.0.2",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vite": "^8.0.16",
+    "vite-plugin-singlefile": "^2.3.3",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "lucide-react": "^1.21.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwindcss": "^4.3.1"
+  }
+}

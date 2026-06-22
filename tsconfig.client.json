@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "noEmit": true,
+    "rootDir": "src/client",
+    "paths": {
+      "@domain/*": ["src/client/domain/*"],
+      "@infra/*": ["src/client/infra/*"],
+      "@app/*": ["src/client/app/*"]
+    }
+  },
+  "include": ["src/client"]
+}

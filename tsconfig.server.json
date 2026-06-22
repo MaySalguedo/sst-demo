@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2019"],
+    "types": ["google-apps-script"],
+    "noEmit": true,
+    "rootDir": "src/server",
+    "paths": {
+      "@domain/*": ["src/server/shared/domain/*"],
+      "@infra/*": ["src/server/infra/*"],
+      "@modules/*": ["src/server/modules/*"]
+    }
+  },
+  "include": ["src/server"]
+}

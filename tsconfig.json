@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "sourceMap": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["src/server/shared/domain/*", "src/client/domain/*"],
+      "@infra/*": ["src/server/infra/*", "src/client/infra/*"],
+      "@modules/*": ["src/server/modules/*"],
+      "@app/*": ["src/client/app/*"]
+    }
+  }
+}
