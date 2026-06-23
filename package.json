@@ -16,6 +16,7 @@
     "open": "clasp open-script",
     "open:webapp": "clasp open-web-app",
     "lint": "eslint .",
+    "lint:no-spec": "eslint . --ignore-pattern '**/*.spec.ts'",
     "audit": "pnpm audit --audit-level=low",
     "check": "run-s check:server check:client",
     "check:server": "tsc --noEmit --ignoreDeprecations 6.0 -p tsconfig.server.json",

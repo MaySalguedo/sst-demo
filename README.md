@@ -167,7 +167,8 @@ Then create or update the **Web App** deployment in Apps Script (Execute as: use
 | `pnpm clasp:auth`    | Materialize `.config/clasp/.clasprc.json` from env     |
 | `pnpm sync:properties` | Sync runtime config to Script Properties via clasp run |
 | `pnpm check`         | TypeScript check (client + server)                   |
-| `pnpm lint`          | ESLint                                               |
+| `pnpm lint`          | ESLint (includes tests)                              |
+| `pnpm lint:no-spec`  | ESLint excluding `*.spec.ts` (used in CI)            |
 | `pnpm audit`         | Dependency vulnerability audit                       |
 | `pnpm test`          | Run Vitest unit tests                                |
 | `pnpm test:cov`      | Tests with **90%** coverage gate                     |
@@ -217,7 +218,7 @@ Runs on **every push and pull request** as a **sequential pipeline** (each job d
 | Job      | Depends on | Branches / context                       | Command                  |
 | -------- | ---------- | ---------------------------------------- | ------------------------ |
 | Audit    | —          | All                                      | `pnpm run audit`         |
-| Lint     | Audit      | All                                      | `pnpm run lint`          |
+| Lint     | Audit      | All                                      | `pnpm run lint:no-spec`  |
 | Check    | Lint       | `main`, `develop`, or PRs targeting them | `pnpm run check`         |
 | Coverage | Check      | `main`, `develop`, or PRs targeting them | `pnpm run test:cov`      |
 
