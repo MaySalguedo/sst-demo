@@ -53,5 +53,14 @@ docker run --rm \
     fi
 
     pnpm install --frozen-lockfile
+
+    export NODE_OPTIONS="${NODE_OPTIONS} --require /app/scripts/fetch-patch.cjs"
+
+    if [ "${CI:-}" = "true" ]; then
+      echo "--- Testing connectivity to Google APIs ---"
+      curl -sSf --connect-timeout 10 --max-time 15 "https://script.googleapis.com/robots.txt" 2>&1 || echo "curl exit code: $?"
+      echo "--- Connectivity test done ---"
+    fi
+
     exec "$@"
   ' _ "$@"
