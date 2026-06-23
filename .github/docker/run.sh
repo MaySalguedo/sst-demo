@@ -15,6 +15,7 @@ docker run --rm \
   -e CI=true \
   -e HOME=/app \
   -e XDG_CACHE_HOME=/app/.cache \
+  -e NODE_OPTIONS="--dns-result-order=ipv4first" \
   -e PNPM_VERSION="${PNPM_VERSION}" \
   -e BUILD_PROFILE="${BUILD_PROFILE:-}" \
   -e CLASP_CLIENT_ID="${CLASP_CLIENT_ID:-}" \
