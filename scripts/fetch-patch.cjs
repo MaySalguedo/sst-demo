@@ -64,6 +64,17 @@ function nativeFetch(input, init = {}) {
 
       const responseHeaders = {
         _headers: { ...res.headers },
+        forEach(callback) {
+          const raw = this._headers;
+          for (const key of Object.keys(raw)) {
+            const value = raw[key];
+            if (Array.isArray(value)) {
+              for (const v of value) callback(v, key, this);
+            } else {
+              callback(value, key, this);
+            }
+          }
+        },
         get(name) { return this._headers[name.toLowerCase()] || null; },
         has(name) { return name.toLowerCase() in this._headers; },
         raw() { return this._headers; },
@@ -76,7 +87,6 @@ function nativeFetch(input, init = {}) {
         status: res.statusCode,
         statusText,
         ok: res.statusCode >= 200 && res.statusCode < 300,
-        headers: responseHeaders,
         body: passthrough,
         bodyUsed: false,
         get headers() { return responseHeaders; },
