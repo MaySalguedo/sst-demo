@@ -35,11 +35,18 @@ const params = JSON.stringify([syncToken, payload]);
 
 try {
   execFileSync(
-    "pnpm",
-    ["exec", "clasp", "run", "syncScriptProperties", "--params", params],
+    "node",
+    [
+      "scripts/clasp-with-retry.mjs",
+      "run",
+      "syncScriptProperties",
+      "--params",
+      params,
+    ],
     {
       cwd: rootDir,
       stdio: "inherit",
+      env: process.env,
     },
   );
 } catch {

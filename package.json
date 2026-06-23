@@ -11,7 +11,7 @@
     "build:server": "node scripts/build-server.mjs",
     "build": "run-s build:client build:server",
     "template": "node scripts/generate-template.mjs",
-    "push": "clasp push --force",
+    "push": "node scripts/clasp-with-retry.mjs push --force",
     "pull": "clasp pull",
     "open": "clasp open-script",
     "open:webapp": "clasp open-web-app",

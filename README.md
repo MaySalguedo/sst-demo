@@ -69,7 +69,7 @@ Occupational health and safety (SST) management hub for the **Human and Organiza
 | Forms        | AppSheet mobile / web forms                  |
 | Deploy       | clasp                                        |
 | CI/CD        | GitHub Actions, Docker, [act](https://github.com/nektos/act) |
-| Tests        | Vitest + v8 coverage (90% gate on `develop`)  |
+| Tests        | Vitest + v8 coverage (90% gate on `main` and `develop`)  |
 
 ## 📋 Prerequisites
 
@@ -219,7 +219,7 @@ Runs on **every push and pull request** as a **sequential pipeline** (each job d
 | Audit    | —          | All                                      | `pnpm run audit`         |
 | Lint     | Audit      | All                                      | `pnpm run lint`          |
 | Check    | Lint       | `main`, `develop`, or PRs targeting them | `pnpm run check`         |
-| Coverage | Check      | `develop` only (push or PR)              | `pnpm run test:cov`      |
+| Coverage | Check      | `main`, `develop`, or PRs targeting them | `pnpm run test:cov`      |
 
 All jobs run through `.github/docker/run.sh`, which builds and executes commands inside the shared CI image defined in `.github/docker/Dockerfile`.
 

@@ -12,15 +12,18 @@ const authFilePath = resolveClaspAuthPath(
 );
 
 try {
+  const force =
+    process.env.CLASP_AUTH_FORCE === "1" || process.env.CI === "true";
   const result = materializeClaspAuth({
     authFilePath,
     clientId: process.env.CLASP_CLIENT_ID,
     clientSecret: process.env.CLASP_CLIENT_SECRET,
     refreshToken: process.env.CLASP_REFRESH_TOKEN,
+    force,
   });
 
   if (result.created) {
-    console.log(`Created clasp auth file at ${result.authFilePath}`);
+    console.log(`Wrote clasp auth file at ${result.authFilePath}`);
   }
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));

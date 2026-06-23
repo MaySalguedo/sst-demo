@@ -61,7 +61,7 @@ describe("clasp auth materialization", () => {
     );
   });
 
-  it("does not overwrite an existing auth file", () => {
+  it("overwrites an existing auth file when forced", () => {
     const tempDir = mkdtempSync(path.join(tmpdir(), "sst-clasp-auth-"));
     const authFilePath = path.join(tempDir, ".clasprc.json");
     writeFileSync(authFilePath, '{"tokens":{"default":{"type":"existing"}}}\n');
@@ -71,9 +71,12 @@ describe("clasp auth materialization", () => {
       clientId: "new-client-id",
       clientSecret: "new-client-secret",
       refreshToken: "new-refresh-token",
+      force: true,
     });
 
-    expect(result.created).toBe(false);
-    expect(readFileSync(authFilePath, "utf8")).toContain('"type":"existing"');
+    expect(result.created).toBe(true);
+    expect(readClaspAuthDocument(authFilePath).tokens.default.client_id).toBe(
+      "new-client-id",
+    );
   });
 });

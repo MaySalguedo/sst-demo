@@ -41,8 +41,9 @@ export function materializeClaspAuth({
   clientId,
   clientSecret,
   refreshToken,
+  force = false,
 }) {
-  if (existsSync(authFilePath)) {
+  if (existsSync(authFilePath) && !force) {
     return { created: false, authFilePath };
   }
 

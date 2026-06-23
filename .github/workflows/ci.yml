@@ -59,7 +59,11 @@ jobs:
   coverage:
     name: Test coverage (90%)
     needs: check
-    if: github.ref == 'refs/heads/develop' || github.base_ref == 'develop'
+    if: >
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/develop' ||
+      github.base_ref == 'main' ||
+      github.base_ref == 'develop'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
