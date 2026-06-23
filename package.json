@@ -24,7 +24,6 @@
     "test": "vitest run",
     "test:cov": "vitest run --coverage",
     "deploy": "run-s build push",
-    "sync:properties": "node scripts/sync-script-properties.mjs",
     "clasp:auth": "node scripts/materialize-clasp-auth.mjs"
   },
   "keywords": [],

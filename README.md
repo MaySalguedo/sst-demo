@@ -76,7 +76,7 @@ Occupational health and safety (SST) management hub for the **Human and Organiza
 - Node.js **24+**
 - pnpm **11.8+** (`corepack enable`)
 - Google account with Apps Script and AppSheet access
-- **Apps Script API** enabled ([User Settings](https://script.google.com/home/usersettings)) — required for `clasp run` / `sync:properties`
+- **Apps Script API** enabled ([User Settings](https://script.google.com/home/usersettings))
 - AppSheet app with **API enabled** (Settings → Integrations → Enable)
 - Looker Studio report with **embedding enabled** (File → Embed report)
 
@@ -110,9 +110,9 @@ cp .secrets.example .secrets
 | `LOOKER_EMBED_URL`    | Looker embed URL (`/embed/reporting/…`)           |
 | `ALERT_DAYS_BEFORE`   | Alert window in days (default `30`)               |
 | `EMAIL_SST`           | SST notification recipient                        |
-| `CD_SYNC_TOKEN`       | Token for CD/local sync of Script Properties      |
 
-Local development reads `.env` for the Vite AppSheet proxy. Production runtime config is stored in **Apps Script Script Properties**, not embedded in `code.js`.
+
+Local development reads `.env` for the Vite AppSheet proxy. Production runtime config is stored in **Apps Script Script Properties** (set manually after deploy), not embedded in `code.js`.
 
 ### 2b. clasp credentials (deploy / CD)
 
@@ -148,14 +148,11 @@ Open `http://localhost:5173`. Requires `APPSHEET_APP_ID` and `APPSHEET_ACCESS_KE
 
 ```bash
 pnpm deploy              # build + clasp push (no secrets in bundle when BUILD_PROFILE=production)
-pnpm run sync:properties # write GitHub/.env values to Script Properties via clasp run
 ```
 
-For local deploys, set `CD_SYNC_TOKEN` and the runtime variables in `.env` or your shell before running `sync:properties`.
-
-CD on `main` runs both steps automatically: deploy with `BUILD_PROFILE=production`, then sync Script Properties.
-
 Then create or update the **Web App** deployment in Apps Script (Execute as: user deploying the app; access: anyone with the link).
+
+**After deploy**, set runtime config manually in the Apps Script editor: *Project Settings → Script Properties* — `APPSHEET_APP_ID`, `APPSHEET_ACCESS_KEY`, `APPSHEET_REGION`, `APPSHEET_DB_URL`, `LOOKER_REPORT_URL`, `LOOKER_EMBED_URL`, `ALERT_DAYS_BEFORE`, `EMAIL_SST`.
 
 ## 📜 NPM scripts
 
@@ -165,7 +162,7 @@ Then create or update the **Web App** deployment in Apps Script (Execute as: use
 | `pnpm build`         | Build client + server into `dist/`                   |
 | `pnpm deploy`        | Build and push to Apps Script via clasp              |
 | `pnpm clasp:auth`    | Materialize `.config/clasp/.clasprc.json` from env     |
-| `pnpm sync:properties` | Sync runtime config to Script Properties via clasp run |
+
 | `pnpm check`         | TypeScript check (client + server)                   |
 | `pnpm lint`          | ESLint (includes tests)                              |
 | `pnpm lint:no-spec`  | ESLint excluding `*.spec.ts` (used in CI)            |
@@ -231,9 +228,9 @@ Triggered only on **`main`**:
 - Manual **workflow_dispatch** (from the `main` branch)
 - Successful completion of the **CI** workflow on `main`
 
-Steps: materialize clasp auth → `pnpm run deploy` with `BUILD_PROFILE=production` → `pnpm run sync:properties` (two sequential jobs via the Docker runner).
+Steps: materialize clasp auth → `pnpm run deploy` with `BUILD_PROFILE=production` (single job via the Docker runner).
 
-Runtime configuration (AppSheet credentials, Looker URLs, alert settings) is written to **Script Properties** on every CD run. It is not baked into the pushed `code.js` bundle.
+Runtime configuration (AppSheet credentials, Looker URLs, alert settings) is not baked into the pushed `code.js` bundle. Set it manually in the Apps Script editor after deploy: *Project Settings → Script Properties*.
 
 ### GitHub configuration
 
@@ -248,10 +245,9 @@ Runtime configuration (AppSheet credentials, Looker URLs, alert settings) is wri
 
 - `APPSHEET_APP_ID`
 - `APPSHEET_ACCESS_KEY`
-- `CD_SYNC_TOKEN` (random 32+ char token; bootstrapped into Script Properties on first sync)
-- `CLASP_CLIENT_ID` (from `tokens.default.client_id` in `.clasprc.json`)
-- `CLASP_CLIENT_SECRET` (from `tokens.default.client_secret`)
-- `CLASP_REFRESH_TOKEN` (from `tokens.default.refresh_token`)
+    - `CLASP_REFRESH_TOKEN` (from `tokens.default.refresh_token`)
+    - `CLASP_CLIENT_ID` (from `tokens.default.client_id`)
+    - `CLASP_CLIENT_SECRET` (from `tokens.default.client_secret`)
 
 ### Test workflows locally with act
 

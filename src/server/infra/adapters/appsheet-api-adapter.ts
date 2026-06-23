@@ -38,7 +38,7 @@ export class AppSheetApiAdapter {
 
     if (!appId || !accessKey) {
       throw new Error(
-        "Faltan APPSHEET_APP_ID o APPSHEET_ACCESS_KEY en Script Properties. Ejecuta pnpm run sync:properties tras el deploy.",
+        "Faltan APPSHEET_APP_ID o APPSHEET_ACCESS_KEY en Script Properties. Configúralas manualmente en el editor de GAS (Project Settings → Script Properties).",
       );
     }
 

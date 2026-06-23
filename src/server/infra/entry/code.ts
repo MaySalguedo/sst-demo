@@ -48,13 +48,6 @@ function testConnection(table?: string): ConnectionTestResult {
   return getContainer().testConnection.execute(table);
 }
 
-function syncScriptProperties(
-  syncToken: string,
-  payload: Record<string, string>,
-) {
-  return getContainer().syncScriptProperties.execute(syncToken, payload);
-}
-
 function addAppSheetRow(table: string, row: string): void {
   getContainer().appsheet.add(table, [JSON.parse(row)]);
 }
@@ -77,7 +70,6 @@ function deleteAppSheetRow(table: string, keys: string): void {
   saveConfig,
   runAlertsNow,
   testConnection,
-  syncScriptProperties,
   addAppSheetRow,
   updateAppSheetRow,
   deleteAppSheetRow,

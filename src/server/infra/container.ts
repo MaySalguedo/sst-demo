@@ -9,7 +9,6 @@ import { PropertiesStoreAdapter } from "@infra/adapters/properties-store-adapter
 import { RunAlertsUseCase } from "@modules/alerts/app/run-alerts-use-case";
 import { GetConfigUseCase } from "@modules/config/app/get-config-use-case";
 import { SaveConfigUseCase } from "@modules/config/app/save-config-use-case";
-import { SyncScriptPropertiesUseCase } from "@modules/config/app/sync-script-properties-use-case";
 import { GetDashboardSummaryUseCase } from "@modules/dashboard/app/get-dashboard-summary-use-case";
 import { TestConnectionUseCase } from "@modules/setup/app/test-connection-use-case";
 
@@ -40,7 +39,6 @@ function buildContainer() {
     ),
     getConfig: new GetConfigUseCase(configRepository),
     saveConfig: new SaveConfigUseCase(configRepository),
-    syncScriptProperties: new SyncScriptPropertiesUseCase(properties),
     testConnection: new TestConnectionUseCase(appsheet),
     properties,
     appsheet,

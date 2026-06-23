@@ -40,7 +40,6 @@ const GAS_TOP_LEVEL_FUNCTIONS = [
   "function saveConfig(partial) { return globalThis.__sstGas.saveConfig(partial); }",
   "function runAlertsNow() { return globalThis.__sstGas.runAlertsNow(); }",
   "function testConnection(table) { return globalThis.__sstGas.testConnection(table); }",
-  "function syncScriptProperties(syncToken, payload) { return globalThis.__sstGas.syncScriptProperties(syncToken, payload); }",
   "function addAppSheetRow(table, row) { return globalThis.__sstGas.addAppSheetRow(table, row); }",
   "function updateAppSheetRow(table, keys, row) { return globalThis.__sstGas.updateAppSheetRow(table, keys, row); }",
   "function deleteAppSheetRow(table, keys) { return globalThis.__sstGas.deleteAppSheetRow(table, keys); }",
