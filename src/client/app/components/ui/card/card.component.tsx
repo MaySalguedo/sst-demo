@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./card.component.css";
 
 export function CardComponent({
   children,
@@ -8,9 +9,7 @@ export function CardComponent({
   className?: string;
 }) {
   return (
-    <div
-      className={`rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm ${className}`}
-    >
+    <div className={`card ${className.includes("p-0") ? "" : "card-padded"} ${className}`}>
       {children}
     </div>
   );

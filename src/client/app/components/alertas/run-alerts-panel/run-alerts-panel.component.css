@@ -1,0 +1,16 @@
+@reference "tailwindcss";
+.alerts-panel {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.alerts-panel-title {
+  @apply text-sm font-medium text-slate-900;
+}
+
+.alerts-panel-desc {
+  @apply mt-1 text-xs text-slate-500 md:text-sm;
+}
+
+.alerts-panel-result {
+  @apply mt-1 text-xs text-emerald-700 md:mt-2;
+}

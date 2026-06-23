@@ -1,0 +1,36 @@
+@reference "tailwindcss";
+.appsheet-card-header {
+  @apply flex items-start gap-3;
+}
+
+.appsheet-card-icon {
+  @apply shrink-0 rounded-xl bg-emerald-50 p-2 text-emerald-600 md:p-2.5;
+}
+
+.appsheet-card-icon-inner {
+  @apply h-4 w-4 md:h-5 md:w-5;
+}
+
+.appsheet-card-body {
+  @apply flex-1;
+}
+
+.appsheet-card-title {
+  @apply text-sm font-medium text-slate-900 md:text-base;
+}
+
+.appsheet-card-desc {
+  @apply mt-1 text-xs text-slate-500 md:text-sm;
+}
+
+.appsheet-card-count {
+  @apply mt-1 text-xs text-slate-400 md:mt-2;
+}
+
+.appsheet-card-footer {
+  @apply mt-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-between md:mt-5;
+}
+
+.appsheet-card-btn {
+  @apply w-full sm:w-auto;
+}

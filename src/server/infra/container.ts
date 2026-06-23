@@ -17,10 +17,12 @@ function buildContainer() {
   const properties = new PropertiesStoreAdapter();
   const appsheet = new AppSheetApiAdapter(properties);
   const configRepository = new PropertiesConfigRepository(properties);
+  const employeeRepo = new AppSheetEmployeeRepository(appsheet);
+  const extinguisherRepo = new AppSheetExtinguisherRepository(appsheet);
 
   const dashboard = new GetDashboardSummaryUseCase(
-    new AppSheetEmployeeRepository(appsheet),
-    new AppSheetExtinguisherRepository(appsheet),
+    employeeRepo,
+    extinguisherRepo,
     new AppSheetEppRepository(appsheet),
     new AppSheetInspectionRepository(appsheet),
     configRepository,
@@ -28,9 +30,10 @@ function buildContainer() {
 
   return {
     dashboard,
-    extinguisherRepository: new AppSheetExtinguisherRepository(appsheet),
+    extinguisherRepository: extinguisherRepo,
     alerts: new RunAlertsUseCase(
-      dashboard,
+      employeeRepo,
+      extinguisherRepo,
       configRepository,
       new MailAppAdapter(),
       properties,
@@ -40,6 +43,7 @@ function buildContainer() {
     syncScriptProperties: new SyncScriptPropertiesUseCase(properties),
     testConnection: new TestConnectionUseCase(appsheet),
     properties,
+    appsheet,
   };
 }
 

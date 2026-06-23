@@ -1,0 +1,24 @@
+@reference "tailwindcss";
+.trends-card {
+  @apply p-4 md:p-5;
+}
+
+.trends-title {
+  @apply mb-3 text-sm font-medium text-slate-900 md:mb-4;
+}
+
+.trends-list {
+  @apply space-y-2 md:space-y-3;
+}
+
+.trends-bar-container {
+  @apply mb-1 flex justify-between text-xs text-slate-500;
+}
+
+.trends-bar-track {
+  @apply h-2 overflow-hidden rounded-full bg-slate-100;
+}
+
+.trends-bar-fill {
+  @apply h-full rounded-full bg-emerald-500 transition-all;
+}

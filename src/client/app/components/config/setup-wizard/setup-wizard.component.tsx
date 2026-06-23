@@ -8,6 +8,7 @@ import type {
 import { ButtonComponent } from "@app/components/ui/button/button.component";
 import { CardComponent } from "@app/components/ui/card/card.component";
 import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import "./setup-wizard.component.css";
 
 const STEPS = [
   {
@@ -89,29 +90,27 @@ export function SetupWizardComponent({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 lg:grid-cols-3">
+    <div className="space-y-4 md:space-y-6">
+      <div className="wizard-steps">
         {STEPS.map((step) => (
           <CardComponent key={step.id}>
-            <div className="mb-3 flex items-center gap-2 text-emerald-600">
-              <step.icon className="h-4 w-4" />
-              <span className="text-xs font-semibold uppercase">
-                Paso {step.id}
-              </span>
+            <div className="wizard-step-icon">
+              <step.icon className="wizard-step-icon-inner" />
+              <span className="wizard-step-number">Paso {step.id}</span>
             </div>
-            <h3 className="font-medium text-slate-900">{step.title}</h3>
-            <p className="mt-2 text-sm text-slate-500">{step.description}</p>
+            <h3 className="text-sm font-medium text-slate-900 md:text-base">{step.title}</h3>
+            <p className="mt-1 text-xs text-slate-500 md:mt-2 md:text-sm">{step.description}</p>
           </CardComponent>
         ))}
       </div>
 
-      <CardComponent className="space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <CardComponent className="space-y-3 md:space-y-4">
+        <div className="wizard-connection">
           <div>
-            <h3 className="font-medium text-slate-900">
+            <h3 className="text-sm font-medium text-slate-900 md:text-base">
               Paso 1 · Conexión a la base de AppSheet
             </h3>
-            <p className="text-sm text-slate-500">
+            <p className="text-xs text-slate-500 md:text-sm">
               Prueba que las credenciales lean la tabla <code>employees</code>.
             </p>
           </div>
@@ -125,11 +124,11 @@ export function SetupWizardComponent({
           </ButtonComponent>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">App ID</span>
+        <div className="wizard-form-grid">
+          <label className="wizard-field">
+            <span className="wizard-label">App ID</span>
             <input
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+              className="wizard-input"
               value={form.appsheetAppId}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, appsheetAppId: event.target.value }))
@@ -137,10 +136,10 @@ export function SetupWizardComponent({
             />
           </label>
 
-          <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">Región (base URL)</span>
+          <label className="wizard-field">
+            <span className="wizard-label">Región (base URL)</span>
             <input
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+              className="wizard-input"
               value={form.appsheetRegion}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, appsheetRegion: event.target.value }))
@@ -148,8 +147,8 @@ export function SetupWizardComponent({
             />
           </label>
 
-          <label className="block text-sm md:col-span-2">
-            <span className="mb-1 block text-slate-600">
+          <label className="wizard-field wizard-form-full">
+            <span className="wizard-label">
               Application Access Key{" "}
               {config.hasAccessKey ? (
                 <span className="text-emerald-600">(configurada)</span>
@@ -162,7 +161,7 @@ export function SetupWizardComponent({
               placeholder={
                 config.hasAccessKey ? "•••••••• (dejar vacío para conservar)" : "V2-..."
               }
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+              className="wizard-input"
               value={form.appsheetAccessKey}
               onChange={(event) =>
                 setForm((prev) => ({
@@ -176,11 +175,7 @@ export function SetupWizardComponent({
 
         {lastTest ? (
           <p
-            className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm ${
-              lastTest.ok
-                ? "bg-emerald-50 text-emerald-700"
-                : "bg-rose-50 text-rose-700"
-            }`}
+            className={`${lastTest.ok ? "wizard-status-ok" : "wizard-status-error"}`}
           >
             {lastTest.ok ? (
               <CheckCircle2 className="h-4 w-4" />
@@ -192,11 +187,11 @@ export function SetupWizardComponent({
         ) : null}
       </CardComponent>
 
-      <CardComponent className="grid gap-4 md:grid-cols-2">
-        <label className="block text-sm md:col-span-2">
-          <span className="mb-1 block text-slate-600">AppSheet DB URL</span>
+      <CardComponent className="wizard-form-grid">
+        <label className="wizard-field wizard-form-full">
+          <span className="wizard-label">AppSheet DB URL</span>
           <input
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+            className="wizard-input"
             value={form.appsheetDbUrl}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, appsheetDbUrl: event.target.value }))
@@ -204,10 +199,10 @@ export function SetupWizardComponent({
           />
         </label>
 
-        <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Looker report URL</span>
+        <label className="wizard-field">
+          <span className="wizard-label">Looker report URL</span>
           <input
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+            className="wizard-input"
             value={form.lookerReportUrl}
             onChange={(event) =>
               setForm((prev) => ({
@@ -218,10 +213,10 @@ export function SetupWizardComponent({
           />
         </label>
 
-        <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Looker embed URL</span>
+        <label className="wizard-field">
+          <span className="wizard-label">Looker embed URL</span>
           <input
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+            className="wizard-input"
             value={form.lookerEmbedUrl}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, lookerEmbedUrl: event.target.value }))
@@ -229,12 +224,12 @@ export function SetupWizardComponent({
           />
         </label>
 
-        <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Días de anticipación</span>
+        <label className="wizard-field">
+          <span className="wizard-label">Días de anticipación</span>
           <input
             type="number"
             min={1}
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+            className="wizard-input"
             value={form.alertDaysBefore}
             onChange={(event) =>
               setForm((prev) => ({
@@ -245,11 +240,11 @@ export function SetupWizardComponent({
           />
         </label>
 
-        <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Email SST</span>
+        <label className="wizard-field">
+          <span className="wizard-label">Email SST</span>
           <input
             type="email"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2"
+            className="wizard-input"
             value={form.emailSst}
             onChange={(event) =>
               setForm((prev) => ({ ...prev, emailSst: event.target.value }))
@@ -257,7 +252,7 @@ export function SetupWizardComponent({
           />
         </label>
 
-        <div className="md:col-span-2">
+        <div className="wizard-form-full">
           <ButtonComponent disabled={saving} onClick={handleSave}>
             {saving ? <SpinnerComponent /> : null}
             Guardar configuración

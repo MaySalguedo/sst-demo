@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import "./page-header.component.css";
 
 export function PageHeaderComponent({
   title,
@@ -10,19 +11,17 @@ export function PageHeaderComponent({
   icon?: LucideIcon;
 }) {
   return (
-    <div className="mb-6">
-      <div className="flex items-center gap-3">
+    <div className="page-header">
+      <div className="page-header-inner">
         {Icon ? (
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-            <Icon className="h-5 w-5" />
+          <div className="page-header-icon">
+            <Icon className="page-header-icon-inner" />
           </div>
         ) : null}
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-            {title}
-          </h1>
+          <h1 className="page-header-title">{title}</h1>
           {description ? (
-            <p className="mt-1 text-sm text-slate-500">{description}</p>
+            <p className="page-header-description">{description}</p>
           ) : null}
         </div>
       </div>

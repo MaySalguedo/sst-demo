@@ -1,0 +1,24 @@
+@reference "tailwindcss";
+.page-header {
+  @apply mb-4 md:mb-6;
+}
+
+.page-header-inner {
+  @apply flex items-center gap-3;
+}
+
+.page-header-icon {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 md:h-10 md:w-10;
+}
+
+.page-header-icon-inner {
+  @apply h-4 w-4 md:h-5 md:w-5;
+}
+
+.page-header-title {
+  @apply text-xl font-semibold tracking-tight text-slate-900 md:text-2xl;
+}
+
+.page-header-description {
+  @apply mt-0.5 text-xs text-slate-500 md:text-sm;
+}

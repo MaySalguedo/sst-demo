@@ -1,0 +1,48 @@
+@reference "tailwindcss";
+.data-table-wrapper {
+  @apply overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm;
+}
+
+.data-table-scroll {
+  @apply overflow-x-auto;
+}
+
+.data-table {
+  @apply w-full text-left text-xs md:text-sm;
+}
+
+.data-table thead {
+  @apply bg-slate-50 text-xs uppercase tracking-wide text-slate-500;
+}
+
+.data-table th {
+  @apply whitespace-nowrap px-3 py-2.5 text-xs md:px-4 md:py-3;
+}
+
+.data-table td {
+  @apply whitespace-nowrap px-3 py-2.5 md:px-4 md:py-3;
+}
+
+.data-table tbody tr {
+  @apply border-t border-slate-100 transition hover:bg-slate-50/50;
+}
+
+.data-table-actions {
+  @apply flex items-center gap-1;
+}
+
+.data-table-action {
+  @apply rounded-lg px-2 py-1 text-xs font-medium transition;
+}
+
+.data-table-action-edit {
+  @apply text-sky-600 hover:bg-sky-50;
+}
+
+.data-table-action-delete {
+  @apply text-rose-600 hover:bg-rose-50;
+}
+
+.data-table-empty {
+  @apply p-4 text-center text-sm text-slate-500 md:p-5;
+}

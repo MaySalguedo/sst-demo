@@ -1,5 +1,6 @@
 import { HardHat, ShieldCheck } from "lucide-react";
 import { AppSheetCardComponent } from "@app/components/forms/appsheet-card/appsheet-card.component";
+import "./appsheet-section.component.css";
 
 export function AppSheetSectionComponent({
   appsheetDbUrl,
@@ -9,7 +10,7 @@ export function AppSheetSectionComponent({
   recentEppCount: number;
 }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
+    <div className="appsheet-grid">
       <AppSheetCardComponent
         title="Entrega de EPP"
         description="Formulario digital para registrar entrega de Elementos de Protección Personal."

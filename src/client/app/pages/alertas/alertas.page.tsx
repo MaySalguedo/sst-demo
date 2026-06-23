@@ -4,35 +4,32 @@ import { PageHeaderComponent } from "@app/components/layout/page-header/page-hea
 import { AlertsTableComponent } from "@app/components/alertas/alerts-table/alerts-table.component";
 import { RunAlertsPanelComponent } from "@app/components/alertas/run-alerts-panel/run-alerts-panel.component";
 import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import "./alertas.page.css";
 
 export function AlertasPage() {
   const { items, loading, error, lastRun, running, runNow } = useAlertas();
 
   return (
-    <div>
+    <div className="alertas-page">
       <PageHeaderComponent
         title="Alertas automáticas"
         description="Vencimientos de exámenes médicos ocupacionales y recargas de extintores"
         icon={Bell}
       />
-      <div className="space-y-6">
-        <RunAlertsPanelComponent
-          running={running}
-          lastRun={lastRun}
-          onRun={() => void runNow()}
-        />
-        {loading ? (
-          <div className="flex justify-center py-10">
-            <SpinnerComponent className="h-8 w-8" />
-          </div>
-        ) : error ? (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-            {error}
-          </div>
-        ) : (
-          <AlertsTableComponent items={items} />
-        )}
-      </div>
+      <RunAlertsPanelComponent
+        running={running}
+        lastRun={lastRun}
+        onRun={() => void runNow()}
+      />
+      {loading ? (
+        <div className="alertas-loading">
+          <SpinnerComponent className="spinner-lg" />
+        </div>
+      ) : error ? (
+        <div className="alertas-error">{error}</div>
+      ) : (
+        <AlertsTableComponent items={items} />
+      )}
     </div>
   );
 }

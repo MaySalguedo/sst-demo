@@ -1,0 +1,16 @@
+@reference "tailwindcss";
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition disabled:cursor-not-allowed md:px-4 md:py-2.5;
+}
+
+.btn-primary {
+  @apply bg-emerald-600 text-white hover:bg-emerald-700 disabled:bg-emerald-300;
+}
+
+.btn-secondary {
+  @apply border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 disabled:text-slate-400;
+}
+
+.btn-danger {
+  @apply bg-rose-600 text-white hover:bg-rose-700 disabled:bg-rose-300;
+}

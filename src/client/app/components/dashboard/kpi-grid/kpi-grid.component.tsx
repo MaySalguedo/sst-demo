@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import type { DashboardSummary } from "@domain/types";
 import { CardComponent } from "@app/components/ui/card/card.component";
+import "./kpi-grid.component.css";
 
 const KPI_CONFIG = [
   {
@@ -36,17 +37,15 @@ const KPI_CONFIG = [
 
 export function KpiGridComponent({ summary }: { summary: DashboardSummary }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="kpi-grid">
       {KPI_CONFIG.map(({ key, label, icon: Icon, tone }) => (
-        <CardComponent key={key} className="flex items-start justify-between">
+        <CardComponent key={key} className="kpi-card">
           <div>
-            <p className="text-sm text-slate-500">{label}</p>
-            <p className="mt-2 text-3xl font-semibold tracking-tight">
-              {summary[key]}
-            </p>
+            <p className="kpi-label">{label}</p>
+            <p className="kpi-value">{summary[key]}</p>
           </div>
-          <div className={`rounded-xl p-2.5 ${tone}`}>
-            <Icon className="h-5 w-5" />
+          <div className={`kpi-icon ${tone}`}>
+            <Icon className="kpi-icon-inner" />
           </div>
         </CardComponent>
       ))}

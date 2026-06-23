@@ -3,6 +3,7 @@ import { useConfig } from "@app/hooks/use-config";
 import { PageHeaderComponent } from "@app/components/layout/page-header/page-header.component";
 import { SetupWizardComponent } from "@app/components/config/setup-wizard/setup-wizard.component";
 import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import "./config.page.css";
 
 export function ConfigPage() {
   const {
@@ -18,24 +19,20 @@ export function ConfigPage() {
 
   if (loading || !config) {
     return (
-      <div className="flex justify-center py-20">
-        <SpinnerComponent className="h-8 w-8" />
+      <div className="config-loading">
+        <SpinnerComponent className="spinner-lg" />
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="config-page">
       <PageHeaderComponent
         title="Configuración"
         description="Integración con AppSheet DB, Looker Studio y parámetros de alertas"
         icon={Settings}
       />
-      {error ? (
-        <div className="mb-4 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
-          {error}
-        </div>
-      ) : null}
+      {error ? <div className="config-error">{error}</div> : null}
       <SetupWizardComponent
         config={config}
         saving={saving}

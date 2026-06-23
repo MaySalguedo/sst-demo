@@ -1,0 +1,16 @@
+@reference "tailwindcss";
+.badge {
+  @apply inline-flex rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset md:px-2.5 md:py-1;
+}
+
+.badge-vigente {
+  @apply bg-emerald-50 text-emerald-700 ring-emerald-600/20;
+}
+
+.badge-proximo {
+  @apply bg-amber-50 text-amber-700 ring-amber-600/20;
+}
+
+.badge-vencido {
+  @apply bg-rose-50 text-rose-700 ring-rose-600/20;
+}

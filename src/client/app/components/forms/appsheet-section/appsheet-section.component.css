@@ -1,0 +1,4 @@
+@reference "tailwindcss";
+.appsheet-grid {
+  @apply grid gap-3 md:gap-4 lg:grid-cols-2;
+}

@@ -1,0 +1,4 @@
+@reference "tailwindcss";
+.qr-image {
+  @apply rounded-xl border border-slate-200 bg-white p-1.5 md:p-2;
+}

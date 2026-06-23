@@ -2,6 +2,7 @@ import { ExternalLink, type LucideIcon } from "lucide-react";
 import { CardComponent } from "@app/components/ui/card/card.component";
 import { ButtonComponent } from "@app/components/ui/button/button.component";
 import { QrCodeComponent } from "@app/components/forms/qr-code/qr-code.component";
+import "./appsheet-card.component.css";
 
 export function AppSheetCardComponent({
   title,
@@ -18,27 +19,24 @@ export function AppSheetCardComponent({
 }) {
   return (
     <CardComponent>
-      <div className="flex items-start gap-3">
-        <div className="rounded-xl bg-emerald-50 p-2.5 text-emerald-600">
-          <Icon className="h-5 w-5" />
+      <div className="appsheet-card-header">
+        <div className="appsheet-card-icon">
+          <Icon className="appsheet-card-icon-inner" />
         </div>
-        <div className="flex-1">
-          <h3 className="font-medium text-slate-900">{title}</h3>
-          <p className="mt-1 text-sm text-slate-500">{description}</p>
+        <div className="appsheet-card-body">
+          <h3 className="appsheet-card-title">{title}</h3>
+          <p className="appsheet-card-desc">{description}</p>
           {recentCount !== undefined ? (
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="appsheet-card-count">
               Registros recientes en AppSheet: {recentCount}
             </p>
           ) : null}
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+      <div className="appsheet-card-footer">
         <QrCodeComponent url={url} />
-        <ButtonComponent
-          className="w-full sm:w-auto"
-          onClick={() => window.open(url, "_blank")}
-        >
+        <ButtonComponent className="appsheet-card-btn" onClick={() => window.open(url, "_blank")}>
           <ExternalLink className="h-4 w-4" />
           Abrir en AppSheet
         </ButtonComponent>

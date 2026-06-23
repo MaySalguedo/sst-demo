@@ -1,0 +1,8 @@
+@reference "tailwindcss";
+.spinner {
+  @apply h-4 w-4 animate-spin rounded-full border-2 border-slate-200 border-t-emerald-600;
+}
+
+.spinner-lg {
+  @apply h-8 w-8 md:h-10 md:w-10;
+}

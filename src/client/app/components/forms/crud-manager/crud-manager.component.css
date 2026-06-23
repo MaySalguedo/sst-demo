@@ -1,0 +1,24 @@
+@reference "tailwindcss";
+.crud-selector {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-end;
+}
+
+.crud-selector-label {
+  @apply mb-1 block text-xs font-medium text-slate-600;
+}
+
+.crud-selector-select {
+  @apply w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none ring-emerald-600/30 focus:ring-2 sm:w-64;
+}
+
+.crud-toolbar {
+  @apply flex items-center justify-between;
+}
+
+.crud-count {
+  @apply text-xs text-slate-500;
+}
+
+.crud-error {
+  @apply rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700;
+}

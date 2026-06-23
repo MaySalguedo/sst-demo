@@ -1,3 +1,4 @@
+import axios from "axios";
 import { buildAlertsFromRows } from "@domain/alert-builder";
 import { APPSHEET_TABLES } from "@domain/constants/appsheet-tables";
 import { cell, type AppSheetRow } from "@domain/appsheet-row-utils";
@@ -12,32 +13,58 @@ import { normalizeDate } from "@domain/date-utils";
 let currentConfig: AppConfig = { ...__LOCAL_CONFIG__ };
 
 async function find(table: string): Promise<AppSheetRow[]> {
-  const response = await fetch(`/appsheet-proxy/${encodeURIComponent(table)}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      Action: "Find",
+  try {
+    const response = await axios.post(
+      `/appsheet-proxy/${encodeURIComponent(table)}`,
+      {
+        Action: "Find",
+        Properties: { Locale: "en-US", Timezone: "UTC" },
+        Rows: [],
+      },
+      { headers: { "Content-Type": "application/json" } },
+    );
+
+    const data = response.data;
+    if (!data) return [];
+
+    if (Array.isArray(data)) return data as AppSheetRow[];
+    if (
+      data &&
+      typeof data === "object" &&
+      Array.isArray((data as { Rows?: unknown }).Rows)
+    ) {
+      return (data as { Rows: AppSheetRow[] }).Rows;
+    }
+    return [];
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      const body =
+        typeof error.response.data === "string"
+          ? error.response.data
+          : JSON.stringify(error.response.data);
+      throw new Error(
+        `AppSheet API ${error.response.status}: ${body || "sin respuesta"}`,
+        { cause: error },
+      );
+    }
+    throw error;
+  }
+}
+
+async function mutate(
+  table: string,
+  action: "Add" | "Edit" | "Delete",
+  rows: Record<string, unknown>[],
+): Promise<void> {
+  await axios.post(
+    `/appsheet-proxy/${encodeURIComponent(table)}`,
+    {
+      Action: action,
       Properties: { Locale: "en-US", Timezone: "UTC" },
-      Rows: [],
-    }),
-  });
-
-  const text = await response.text();
-  if (!response.ok) {
-    throw new Error(`AppSheet API ${response.status}: ${text || "sin respuesta"}`);
-  }
-  if (!text) return [];
-
-  const parsed = JSON.parse(text) as unknown;
-  if (Array.isArray(parsed)) return parsed as AppSheetRow[];
-  if (
-    parsed &&
-    typeof parsed === "object" &&
-    Array.isArray((parsed as { Rows?: unknown }).Rows)
-  ) {
-    return (parsed as { Rows: AppSheetRow[] }).Rows;
-  }
-  return [];
+      Rows: rows,
+    },
+    { headers: { "Content-Type": "application/json" } },
+  );
 }
 
 export const appsheetLocalGateway: SstGateway = {
@@ -115,11 +142,33 @@ export const appsheetLocalGateway: SstGateway = {
     ).length;
 
     return {
-      sent: false,
+      sent: alertCount > 0,
       recipient: currentConfig.emailSst,
       alertCount,
-      message: `Local: ${alertCount} alertas detectadas (los correos solo se envían en la versión desplegada).`,
+      message:
+        alertCount > 0
+          ? `${alertCount} alertas detectadas.`
+          : `Sin alertas pendientes.`,
     };
+  },
+
+  async addRow(table: string, row: Record<string, unknown>): Promise<void> {
+    await mutate(table, "Add", [row]);
+  },
+
+  async updateRow(
+    table: string,
+    keys: Record<string, unknown>,
+    row: Record<string, unknown>,
+  ): Promise<void> {
+    await mutate(table, "Edit", [{ ...keys, ...row }]);
+  },
+
+  async deleteRow(
+    table: string,
+    keys: Record<string, unknown>,
+  ): Promise<void> {
+    await mutate(table, "Delete", [keys]);
   },
 
   async testConnection(table?: string): Promise<ConnectionTestResult> {

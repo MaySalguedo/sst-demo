@@ -28,7 +28,11 @@ export class AppSheetApiAdapter {
     ).replace(/\/+$/, "");
   }
 
-  find(tableName: string): AppSheetRow[] {
+  private request(
+    action: "Find" | "Add" | "Edit" | "Delete",
+    tableName: string,
+    rows: Record<string, unknown>[],
+  ): AppSheetRow[] {
     const appId = this.appId;
     const accessKey = this.accessKey;
 
@@ -47,9 +51,9 @@ export class AppSheetApiAdapter {
       contentType: "application/json",
       headers: { ApplicationAccessKey: accessKey },
       payload: JSON.stringify({
-        Action: "Find",
+        Action: action,
         Properties: { Locale: "en-US", Timezone: "UTC" },
-        Rows: [],
+        Rows: rows,
       }),
       muteHttpExceptions: true,
     });
@@ -73,5 +77,21 @@ export class AppSheetApiAdapter {
       return (parsed as { Rows: AppSheetRow[] }).Rows;
     }
     return [];
+  }
+
+  find(tableName: string): AppSheetRow[] {
+    return this.request("Find", tableName, []);
+  }
+
+  add(tableName: string, rows: Record<string, unknown>[]): void {
+    this.request("Add", tableName, rows);
+  }
+
+  edit(tableName: string, rows: Record<string, unknown>[]): void {
+    this.request("Edit", tableName, rows);
+  }
+
+  delete(tableName: string, rows: Record<string, unknown>[]): void {
+    this.request("Delete", tableName, rows);
   }
 }

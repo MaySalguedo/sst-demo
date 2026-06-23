@@ -1,31 +1,32 @@
 import type { Extinguisher } from "@domain/types";
 import { BadgeComponent } from "@app/components/ui/badge/badge.component";
 import { CardComponent } from "@app/components/ui/card/card.component";
+import "./extinguisher-table.component.css";
 
 export function ExtinguisherTableComponent({ items }: { items: Extinguisher[] }) {
   return (
-    <CardComponent className="overflow-hidden p-0">
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+    <CardComponent className="ext-table-wrapper">
+      <div className="ext-table-scroll">
+        <table className="ext-table">
+          <thead>
             <tr>
-              <th className="px-5 py-3">Código</th>
-              <th className="px-5 py-3">Ubicación</th>
-              <th className="px-5 py-3">Tipo</th>
-              <th className="px-5 py-3">Última recarga</th>
-              <th className="px-5 py-3">Próxima recarga</th>
-              <th className="px-5 py-3">Estado</th>
+              <th>Código</th>
+              <th>Ubicación</th>
+              <th>Tipo</th>
+              <th>Última recarga</th>
+              <th>Próxima recarga</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.code} className="border-t border-slate-100">
-                <td className="px-5 py-3 font-medium">{item.code}</td>
-                <td className="px-5 py-3">{item.location}</td>
-                <td className="px-5 py-3">{item.type}</td>
-                <td className="px-5 py-3">{item.lastRecharge}</td>
-                <td className="px-5 py-3">{item.nextRecharge}</td>
-                <td className="px-5 py-3">
+              <tr key={item.code}>
+                <td className="font-medium">{item.code}</td>
+                <td>{item.location}</td>
+                <td>{item.type}</td>
+                <td>{item.lastRecharge}</td>
+                <td>{item.nextRecharge}</td>
+                <td>
                   <BadgeComponent status={item.status} />
                 </td>
               </tr>

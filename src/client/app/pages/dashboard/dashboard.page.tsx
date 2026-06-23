@@ -6,6 +6,7 @@ import { KpiGridComponent } from "@app/components/dashboard/kpi-grid/kpi-grid.co
 import { TrendsChartComponent } from "@app/components/dashboard/trends-chart/trends-chart.component";
 import { LookerEmbedComponent } from "@app/components/dashboard/looker-embed/looker-embed.component";
 import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import "./dashboard.page.css";
 
 export function DashboardPage() {
   const { summary, trends, refresh } = useDashboard();
@@ -13,19 +14,19 @@ export function DashboardPage() {
 
   if (summary.loading || trends.loading) {
     return (
-      <div className="flex justify-center py-20">
-        <SpinnerComponent className="h-8 w-8" />
+      <div className="dashboard-loading">
+        <SpinnerComponent className="spinner-lg" />
       </div>
     );
   }
 
   if (summary.error || trends.error || !summary.data || !trends.data) {
     return (
-      <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+      <div className="dashboard-error">
         {summary.error ?? trends.error}
         <button
           type="button"
-          className="ml-3 underline"
+          className="dashboard-error-btn"
           onClick={() => void refresh()}
         >
           Reintentar
@@ -35,20 +36,18 @@ export function DashboardPage() {
   }
 
   return (
-    <div>
+    <div className="dashboard-page">
       <PageHeaderComponent
         title="Dashboard SST"
         description="Indicadores de gestión, tendencias e integración con Looker Studio"
         icon={LayoutDashboard}
       />
-      <div className="space-y-6">
-        <KpiGridComponent summary={summary.data} />
-        <TrendsChartComponent data={trends.data} />
-        <LookerEmbedComponent
-          embedUrl={config?.lookerEmbedUrl ?? ""}
-          reportUrl={config?.lookerReportUrl ?? ""}
-        />
-      </div>
+      <KpiGridComponent summary={summary.data} />
+      <TrendsChartComponent data={trends.data} />
+      <LookerEmbedComponent
+        embedUrl={config?.lookerEmbedUrl ?? ""}
+        reportUrl={config?.lookerReportUrl ?? ""}
+      />
     </div>
   );
 }

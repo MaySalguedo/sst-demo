@@ -1,0 +1,32 @@
+@reference "tailwindcss";
+.alerts-table-wrapper {
+  @apply overflow-hidden p-0;
+}
+
+.alerts-table-scroll {
+  @apply overflow-x-auto;
+}
+
+.alerts-table {
+  @apply w-full text-left text-xs md:text-sm;
+}
+
+.alerts-table thead {
+  @apply bg-slate-50 text-xs uppercase tracking-wide text-slate-500;
+}
+
+.alerts-table th {
+  @apply whitespace-nowrap px-3 py-2.5 md:px-5 md:py-3;
+}
+
+.alerts-table td {
+  @apply whitespace-nowrap px-3 py-2.5 md:px-5 md:py-3;
+}
+
+.alerts-table tbody tr {
+  @apply border-t border-slate-100;
+}
+
+.alerts-empty {
+  @apply p-4 text-sm text-slate-500 md:p-5;
+}

@@ -1,9 +1,10 @@
 import type { ExpirationStatus } from "@domain/types";
+import "./badge.component.css";
 
 const styles: Record<ExpirationStatus, string> = {
-  Vigente: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
-  Próximo: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  Vencido: "bg-rose-50 text-rose-700 ring-rose-600/20",
+  Vigente: "badge-vigente",
+  Próximo: "badge-proximo",
+  Vencido: "badge-vencido",
 };
 
 export function BadgeComponent({
@@ -14,9 +15,7 @@ export function BadgeComponent({
   label?: string;
 }) {
   return (
-    <span
-      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${styles[status]}`}
-    >
+    <span className={`badge ${styles[status]}`}>
       {label ?? status}
     </span>
   );

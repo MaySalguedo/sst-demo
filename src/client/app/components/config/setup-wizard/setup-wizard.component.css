@@ -1,0 +1,48 @@
+@reference "tailwindcss";
+.wizard-steps {
+  @apply grid gap-3 md:gap-4 lg:grid-cols-3;
+}
+
+.wizard-step-icon {
+  @apply mb-2 flex items-center gap-2 text-emerald-600 md:mb-3;
+}
+
+.wizard-step-icon-inner {
+  @apply h-3 w-3 md:h-4 md:w-4;
+}
+
+.wizard-step-number {
+  @apply text-xs font-semibold uppercase;
+}
+
+.wizard-connection {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.wizard-form-grid {
+  @apply grid gap-3 md:gap-4 md:grid-cols-2;
+}
+
+.wizard-form-full {
+  @apply md:col-span-2;
+}
+
+.wizard-field {
+  @apply block text-sm;
+}
+
+.wizard-label {
+  @apply mb-1 block text-xs text-slate-600 md:text-sm;
+}
+
+.wizard-input {
+  @apply w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-emerald-600/30 focus:ring-2;
+}
+
+.wizard-status-ok {
+  @apply flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-700;
+}
+
+.wizard-status-error {
+  @apply flex items-center gap-2 rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700;
+}

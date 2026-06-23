@@ -1,0 +1,92 @@
+@reference "tailwindcss";
+.sidebar {
+  @apply flex shrink-0 flex-col border-r border-slate-200 bg-white transition-all;
+}
+
+.sidebar-desktop {
+  @apply hidden md:flex;
+}
+
+.sidebar-mobile {
+  @apply flex md:hidden;
+}
+
+.sidebar-expanded {
+  @apply w-64;
+}
+
+.sidebar-collapsed {
+  @apply w-[72px];
+}
+
+.sidebar-overlay {
+  @apply fixed inset-0 z-30 bg-black/50 transition-opacity duration-300 md:hidden;
+}
+
+.sidebar-overlay-hidden {
+  @apply pointer-events-none opacity-0;
+}
+
+.sidebar-overlay-visible {
+  @apply opacity-100;
+}
+
+.sidebar-panel {
+  @apply fixed inset-y-0 left-0 z-40 flex shrink-0 flex-col border-r border-slate-200 bg-white transition-transform duration-300 md:static md:z-auto;
+}
+
+.sidebar-panel-hidden {
+  @apply -translate-x-full md:translate-x-0;
+}
+
+.sidebar-panel-visible {
+  @apply translate-x-0;
+}
+
+.sidebar-logo {
+  @apply flex items-center gap-3 border-b border-slate-100 px-4 py-5;
+}
+
+.sidebar-icon {
+  @apply flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-emerald-600 text-white transition hover:bg-emerald-700;
+}
+
+.sidebar-close {
+  @apply ml-auto flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-600;
+}
+
+.sidebar-brand {
+  @apply flex flex-col overflow-hidden transition-all;
+}
+
+.sidebar-brand-hidden {
+  @apply w-0 opacity-0;
+}
+
+.sidebar-brand-visible {
+  @apply w-auto opacity-100;
+}
+
+.sidebar-nav {
+  @apply flex-1 space-y-1 p-3;
+}
+
+.sidebar-nav-item {
+  @apply flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition;
+}
+
+.sidebar-nav-item-active {
+  @apply bg-emerald-50 text-emerald-700;
+}
+
+.sidebar-nav-item-inactive {
+  @apply text-slate-600 hover:bg-slate-50 hover:text-slate-900;
+}
+
+.sidebar-toggle-btn {
+  @apply w-full rounded-xl px-3 py-2 text-xs text-slate-500 hover:bg-slate-50;
+}
+
+.sidebar-hamburger {
+  @apply flex h-9 w-9 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-100 md:hidden;
+}

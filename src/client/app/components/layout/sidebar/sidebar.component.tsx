@@ -1,65 +1,83 @@
-import { HardHat } from "lucide-react";
+import { HardHat, X } from "lucide-react";
 import type { ViewId } from "@domain/types";
 import { NAV_ITEMS } from "@app/components/layout/nav-items/nav-items";
+import "./sidebar.component.css";
 
 export function SidebarComponent({
   active,
   onNavigate,
   collapsed,
   onToggle,
+  open,
+  onClose,
 }: {
   active: ViewId;
   onNavigate: (view: ViewId) => void;
   collapsed: boolean;
   onToggle: () => void;
+  open: boolean;
+  onClose: () => void;
 }) {
+  const handleNavigate = (view: ViewId) => {
+    onNavigate(view);
+    onClose();
+  };
+
   return (
-    <aside
-      className={`flex shrink-0 flex-col border-r border-slate-200 bg-white transition-all ${collapsed ? "w-[72px]" : "w-64"}`}
-    >
-      <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-5">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
-          <HardHat className="h-5 w-5" />
-        </div>
-        {!collapsed ? (
-          <div>
+    <>
+      <div
+        className={`sidebar-overlay ${open ? "sidebar-overlay-visible" : "sidebar-overlay-hidden"}`}
+        onClick={onClose}
+        role="presentation"
+      />
+
+      <aside
+        className={`sidebar-panel ${open ? "sidebar-panel-visible" : "sidebar-panel-hidden"} md:static md:z-auto md:block ${open || !collapsed ? "sidebar-expanded" : "sidebar-collapsed"}`}
+      >
+        <div className="sidebar-logo">
+          <button
+            type="button"
+            onClick={onToggle}
+            className="sidebar-icon"
+            aria-label={collapsed ? "Expandir menú" : "Colapsar menú"}
+          >
+            <HardHat className="h-5 w-5" />
+          </button>
+          <div
+            className={`sidebar-brand ${open || !collapsed ? "sidebar-brand-visible" : "sidebar-brand-hidden"}`}
+          >
             <p className="text-sm font-semibold text-slate-900">SST Demo</p>
             <p className="text-xs text-slate-500">Hub DHO</p>
           </div>
-        ) : null}
-      </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="sidebar-close md:hidden"
+            aria-label="Cerrar menú"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
-      <nav className="flex-1 space-y-1 p-3">
-        {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
-          const isActive = active === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => onNavigate(id)}
-              className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
-                isActive
-                  ? "bg-emerald-50 text-emerald-700"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              }`}
-              title={collapsed ? label : undefined}
-            >
-              <Icon className="h-5 w-5 shrink-0" />
-              {!collapsed ? <span>{label}</span> : null}
-            </button>
-          );
-        })}
-      </nav>
-
-      <div className="border-t border-slate-100 p-3">
-        <button
-          type="button"
-          onClick={onToggle}
-          className="w-full rounded-xl px-3 py-2 text-xs text-slate-500 hover:bg-slate-50"
-        >
-          {collapsed ? "→" : "← Colapsar"}
-        </button>
-      </div>
-    </aside>
+        <nav className="sidebar-nav">
+          {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
+            const isActive = active === id;
+            const hideLabel = collapsed && !open;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => handleNavigate(id)}
+                className={`sidebar-nav-item ${isActive ? "sidebar-nav-item-active" : "sidebar-nav-item-inactive"}`}
+                title={hideLabel ? label : undefined}
+              >
+                <Icon className="h-5 w-5 shrink-0" />
+                {!hideLabel ? <span>{label}</span> : null}
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+    </>
   );
 }

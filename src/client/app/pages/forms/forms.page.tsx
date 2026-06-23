@@ -1,33 +1,17 @@
-import { ClipboardList } from "lucide-react";
-import { useDashboard } from "@app/hooks/use-dashboard";
-import { useConfig } from "@app/hooks/use-config";
+import { Database } from "lucide-react";
 import { PageHeaderComponent } from "@app/components/layout/page-header/page-header.component";
-import { AppSheetSectionComponent } from "@app/components/forms/appsheet-section/appsheet-section.component";
-import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import { CrudManagerComponent } from "@app/components/forms/crud-manager/crud-manager.component";
+import "./forms.page.css";
 
 export function FormsPage() {
-  const { config, loading } = useConfig();
-  const { summary } = useDashboard();
-
-  if (loading || !config) {
-    return (
-      <div className="flex justify-center py-20">
-        <SpinnerComponent className="h-8 w-8" />
-      </div>
-    );
-  }
-
   return (
-    <div>
+    <div className="forms-page">
       <PageHeaderComponent
-        title="Formularios AppSheet"
-        description="Digitalización de formatos EPP e inspecciones con sync en tiempo real"
-        icon={ClipboardList}
+        title="Gestión de datos AppSheet"
+        description="Administra registros de empleados, EPP, inspecciones y extintores directamente desde aquí"
+        icon={Database}
       />
-      <AppSheetSectionComponent
-        appsheetDbUrl={config.appsheetDbUrl}
-        recentEppCount={summary.data?.recentEppCount ?? 0}
-      />
+      <CrudManagerComponent />
     </div>
   );
 }

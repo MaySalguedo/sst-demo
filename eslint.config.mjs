@@ -14,4 +14,10 @@ export default tseslint.config(
       globals: globals.node,
     },
   },
+  {
+    files: ["scripts/**/*.cjs"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 );

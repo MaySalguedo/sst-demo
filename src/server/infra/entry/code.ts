@@ -55,6 +55,18 @@ function syncScriptProperties(
   return getContainer().syncScriptProperties.execute(syncToken, payload);
 }
 
+function addAppSheetRow(table: string, row: string): void {
+  getContainer().appsheet.add(table, [JSON.parse(row)]);
+}
+
+function updateAppSheetRow(table: string, keys: string, row: string): void {
+  getContainer().appsheet.edit(table, [{ ...JSON.parse(keys), ...JSON.parse(row) }]);
+}
+
+function deleteAppSheetRow(table: string, keys: string): void {
+  getContainer().appsheet.delete(table, [JSON.parse(keys)]);
+}
+
 (globalThis as Record<string, unknown>).__sstGas = {
   doGet,
   getDashboardSummary,
@@ -66,4 +78,7 @@ function syncScriptProperties(
   runAlertsNow,
   testConnection,
   syncScriptProperties,
+  addAppSheetRow,
+  updateAppSheetRow,
+  deleteAppSheetRow,
 };

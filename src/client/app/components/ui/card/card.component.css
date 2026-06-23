@@ -1,0 +1,8 @@
+@reference "tailwindcss";
+.card {
+  @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm;
+}
+
+.card-padded {
+  @apply p-4 md:p-5;
+}

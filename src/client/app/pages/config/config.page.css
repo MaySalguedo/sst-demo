@@ -1,0 +1,36 @@
+@reference "tailwindcss";
+.config-page {
+  @apply space-y-4 md:space-y-6;
+}
+
+.config-loading {
+  @apply flex justify-center py-16 md:py-20;
+}
+
+.config-error {
+  @apply mb-3 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700 md:mb-4 md:p-4;
+}
+
+.config-form-grid {
+  @apply grid gap-3 md:gap-4;
+}
+
+.config-field {
+  @apply block text-sm;
+}
+
+.config-label {
+  @apply mb-1 block text-xs text-slate-600 md:text-sm;
+}
+
+.config-input {
+  @apply w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-emerald-600/30 focus:ring-2;
+}
+
+.config-status-ok {
+  @apply flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-700;
+}
+
+.config-status-error {
+  @apply flex items-center gap-2 rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700;
+}

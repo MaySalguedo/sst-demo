@@ -1,0 +1,24 @@
+@reference "tailwindcss";
+.kpi-grid {
+  @apply grid gap-3 sm:grid-cols-2 md:gap-4 xl:grid-cols-4;
+}
+
+.kpi-card {
+  @apply flex items-start justify-between;
+}
+
+.kpi-label {
+  @apply text-xs text-slate-500 md:text-sm;
+}
+
+.kpi-value {
+  @apply mt-1 text-2xl font-semibold tracking-tight md:mt-2 md:text-3xl;
+}
+
+.kpi-icon {
+  @apply rounded-xl p-2 md:p-2.5;
+}
+
+.kpi-icon-inner {
+  @apply h-4 w-4 md:h-5 md:w-5;
+}

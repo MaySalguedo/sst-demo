@@ -1,0 +1,28 @@
+@reference "tailwindcss";
+.ext-table-wrapper {
+  @apply overflow-hidden p-0;
+}
+
+.ext-table-scroll {
+  @apply overflow-x-auto;
+}
+
+.ext-table {
+  @apply w-full text-left text-xs md:text-sm;
+}
+
+.ext-table thead {
+  @apply bg-slate-50 text-xs uppercase tracking-wide text-slate-500;
+}
+
+.ext-table th {
+  @apply whitespace-nowrap px-3 py-2.5 md:px-5 md:py-3;
+}
+
+.ext-table td {
+  @apply whitespace-nowrap px-3 py-2.5 md:px-5 md:py-3;
+}
+
+.ext-table tbody tr {
+  @apply border-t border-slate-100;
+}

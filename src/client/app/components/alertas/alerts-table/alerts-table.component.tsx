@@ -1,12 +1,13 @@
 import type { AlertItem } from "@domain/types";
 import { BadgeComponent } from "@app/components/ui/badge/badge.component";
 import { CardComponent } from "@app/components/ui/card/card.component";
+import "./alerts-table.component.css";
 
 export function AlertsTableComponent({ items }: { items: AlertItem[] }) {
   if (items.length === 0) {
     return (
       <CardComponent>
-        <p className="text-sm text-slate-500">
+        <p className="alerts-empty">
           No hay alertas dentro del rango configurado.
         </p>
       </CardComponent>
@@ -14,30 +15,30 @@ export function AlertsTableComponent({ items }: { items: AlertItem[] }) {
   }
 
   return (
-    <CardComponent className="overflow-hidden p-0">
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+    <CardComponent className="alerts-table-wrapper">
+      <div className="alerts-table-scroll">
+        <table className="alerts-table">
+          <thead>
             <tr>
-              <th className="px-5 py-3">Tipo</th>
-              <th className="px-5 py-3">Elemento</th>
-              <th className="px-5 py-3">Detalle</th>
-              <th className="px-5 py-3">Vence</th>
-              <th className="px-5 py-3">Días</th>
-              <th className="px-5 py-3">Estado</th>
+              <th>Tipo</th>
+              <th>Elemento</th>
+              <th>Detalle</th>
+              <th>Vence</th>
+              <th>Días</th>
+              <th>Estado</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={`${item.type}-${item.id}`} className="border-t border-slate-100">
-                <td className="px-5 py-3 text-slate-600">
+              <tr key={`${item.type}-${item.id}`}>
+                <td className="text-slate-600">
                   {item.type === "examen_medico" ? "Examen médico" : "Extintor"}
                 </td>
-                <td className="px-5 py-3 font-medium">{item.label}</td>
-                <td className="px-5 py-3 text-slate-600">{item.detail}</td>
-                <td className="px-5 py-3">{item.dueDate}</td>
-                <td className="px-5 py-3">{item.daysRemaining}</td>
-                <td className="px-5 py-3">
+                <td className="font-medium">{item.label}</td>
+                <td className="text-slate-600">{item.detail}</td>
+                <td>{item.dueDate}</td>
+                <td>{item.daysRemaining}</td>
+                <td>
                   <BadgeComponent status={item.status} />
                 </td>
               </tr>

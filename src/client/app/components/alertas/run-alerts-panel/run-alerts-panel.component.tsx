@@ -3,6 +3,7 @@ import type { AlertRunResult } from "@domain/types";
 import { ButtonComponent } from "@app/components/ui/button/button.component";
 import { CardComponent } from "@app/components/ui/card/card.component";
 import { SpinnerComponent } from "@app/components/ui/spinner/spinner.component";
+import "./run-alerts-panel.component.css";
 
 export function RunAlertsPanelComponent({
   running,
@@ -14,14 +15,14 @@ export function RunAlertsPanelComponent({
   onRun: () => void;
 }) {
   return (
-    <CardComponent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <CardComponent className="alerts-panel">
       <div>
-        <h3 className="text-sm font-medium text-slate-900">Alertas por correo</h3>
-        <p className="mt-1 text-sm text-slate-500">
+        <h3 className="alerts-panel-title">Alertas por correo</h3>
+        <p className="alerts-panel-desc">
           Envía un resumen de vencimientos de exámenes médicos y extintores.
         </p>
         {lastRun ? (
-          <p className="mt-2 text-xs text-emerald-700">{lastRun.message}</p>
+          <p className="alerts-panel-result">{lastRun.message}</p>
         ) : null}
       </div>
       <ButtonComponent onClick={onRun} disabled={running}>

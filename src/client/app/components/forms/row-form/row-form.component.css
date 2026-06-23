@@ -1,0 +1,40 @@
+@reference "tailwindcss";
+.row-form-overlay {
+  @apply fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4 pt-12 md:items-center md:pt-4;
+}
+
+.row-form-panel {
+  @apply w-full max-w-lg rounded-2xl bg-white shadow-xl;
+}
+
+.row-form-header {
+  @apply flex items-center justify-between border-b border-slate-200 px-5 py-4;
+}
+
+.row-form-title {
+  @apply text-base font-semibold text-slate-900;
+}
+
+.row-form-close {
+  @apply flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-600;
+}
+
+.row-form-body {
+  @apply max-h-[60vh] space-y-3 overflow-y-auto p-5;
+}
+
+.row-form-field {
+  @apply block text-sm;
+}
+
+.row-form-label {
+  @apply mb-1 block text-xs font-medium text-slate-600;
+}
+
+.row-form-input {
+  @apply w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none ring-emerald-600/30 focus:ring-2;
+}
+
+.row-form-footer {
+  @apply flex items-center justify-end gap-3 border-t border-slate-200 px-5 py-4;
+}
