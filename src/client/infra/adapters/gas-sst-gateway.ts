@@ -25,6 +25,7 @@ declare global {
               saveConfig(partial: AppConfigInput): void;
               runAlertsNow(): void;
               testConnection(table?: string): void;
+              getAppSheetRows(table: string): void;
               addAppSheetRow(table: string, row: string): void;
               updateAppSheetRow(table: string, keys: string, row: string): void;
               deleteAppSheetRow(table: string, keys: string): void;
@@ -90,6 +91,11 @@ export const gasSstGateway: SstGateway = {
     callGas<ConnectionTestResult>(
       (run) => run.testConnection(table),
       "testConnection",
+    ),
+  getRows: (table: string) =>
+    callGas<Record<string, unknown>[]>(
+      (run) => run.getAppSheetRows(table),
+      "getAppSheetRows",
     ),
   addRow: (table: string, row: Record<string, unknown>) =>
     callGas<void>(

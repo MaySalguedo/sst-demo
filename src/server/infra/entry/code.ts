@@ -48,6 +48,10 @@ function testConnection(table?: string): ConnectionTestResult {
   return getContainer().testConnection.execute(table);
 }
 
+function getAppSheetRows(table: string): Record<string, unknown>[] {
+  return getContainer().appsheet.find(table);
+}
+
 function addAppSheetRow(table: string, row: string): void {
   getContainer().appsheet.add(table, [JSON.parse(row)]);
 }
@@ -71,6 +75,7 @@ function deleteAppSheetRow(table: string, keys: string): void {
   runAlertsNow,
   testConnection,
   addAppSheetRow,
+  getAppSheetRows,
   updateAppSheetRow,
   deleteAppSheetRow,
 };

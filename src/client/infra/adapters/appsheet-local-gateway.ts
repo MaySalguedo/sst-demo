@@ -152,6 +152,10 @@ export const appsheetLocalGateway: SstGateway = {
     };
   },
 
+  async getRows(table: string): Promise<Record<string, unknown>[]> {
+    return find(table);
+  },
+
   async addRow(table: string, row: Record<string, unknown>): Promise<void> {
     await mutate(table, "Add", [row]);
   },

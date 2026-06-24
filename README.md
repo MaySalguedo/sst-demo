@@ -37,6 +37,37 @@ Occupational health and safety (SST) management hub for the **Human and Organiza
 - **Looker Studio embed** — executive dashboards inside the hub
 - **CI/CD** — sequential Docker-based GitHub Actions (audit → lint → check → coverage → deploy)
 
+## 📸 Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="src/assets/dashborad.png" alt="Dashboard" width="400"/>
+        <br/>
+        <em>Dashboard — KPIs, trends, and Looker Studio embed</em>
+      </td>
+      <td align="center">
+        <img src="src/assets/alerts.png" alt="Alertas" width="400"/>
+        <br/>
+        <em>Alertas — expiring certificates and extinguishers</em>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="src/assets/appsheet.png" alt="AppSheet Forms" width="400"/>
+        <br/>
+        <em>Forms — inline CRUD on AppSheet tables</em>
+      </td>
+      <td align="center">
+        <img src="src/assets/extinguishers.png" alt="Extintores" width="400"/>
+        <br/>
+        <em>Extintores — extinguisher inventory overview</em>
+      </td>
+    </tr>
+  </table>
+</div>
+
 ## 🏗 Architecture
 
 ```text

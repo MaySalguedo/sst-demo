@@ -16,6 +16,7 @@ export interface SstGateway {
   runAlertsNow(): Promise<AlertRunResult>;
   testConnection(table?: string): Promise<ConnectionTestResult>;
 
+  getRows(table: string): Promise<Record<string, unknown>[]>;
   addRow(table: string, row: Record<string, unknown>): Promise<void>;
   updateRow(table: string, keys: Record<string, unknown>, row: Record<string, unknown>): Promise<void>;
   deleteRow(table: string, keys: Record<string, unknown>): Promise<void>;

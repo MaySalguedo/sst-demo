@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { Plus } from "lucide-react";
-import axios from "axios";
 import { useGateway } from "@app/hooks/use-gateway";
 import { APPSHEET_TABLES } from "@domain/constants/appsheet-tables";
 import type { AppSheetRow } from "@domain/appsheet-row-utils";
@@ -20,22 +19,6 @@ const TABLE_LABELS: Record<string, string> = {
   [APPSHEET_TABLES.extinguishers]: "Extintores",
 };
 
-async function fetchRows(table: string): Promise<AppSheetRow[]> {
-  const response = await axios.post(
-    `/appsheet-proxy/${encodeURIComponent(table)}`,
-    {
-      Action: "Find",
-      Properties: { Locale: "en-US", Timezone: "UTC" },
-      Rows: [],
-    },
-    { headers: { "Content-Type": "application/json" } },
-  );
-  const data = response.data;
-  if (Array.isArray(data)) return data;
-  if (data?.Rows && Array.isArray(data.Rows)) return data.Rows;
-  return [];
-}
-
 export function CrudManagerComponent() {
   const gateway = useGateway();
   const [table, setTable] = useState<string>(APPSHEET_TABLES.employees);
@@ -52,7 +35,7 @@ export function CrudManagerComponent() {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchRows(t);
+        const data = await gateway.getRows(t);
         setRows(data);
         if (data.length > 0) {
           const all = Object.keys(data[0] as Record<string, string>);
